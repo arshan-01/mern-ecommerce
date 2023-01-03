@@ -6,12 +6,13 @@ const jwt = require("jsonwebtoken");
 //REGISTER USER
 
 router.post("/register", async (req, res) => {
-
+  !req.body.username && res.status(401).json("username can't be blank");
+  !req.body.email && res.status(401).json("email can't be blank");
   //Checking if user exsist in database
   const newRegister = await User.findOne({
     email: req.body.email,
   });
-  newRegister && res.status(401).json("User Already Exist!");
+  newRegister && res.status(401).json("User already exist!");
 
   if (req.body.password) {
     let encryptedPassword = CryptoJS.AES.encrypt(
@@ -34,14 +35,15 @@ router.post("/register", async (req, res) => {
       res.status(500).json(error.message);
     }
   } else {
-    return res.status(401).json("Password field Can't be empty");
+    res.status(401).json("Password field Can't be empty");
   }
 });
 
 //Login USER
 
 router.post("/login", async (req, res) => {
-
+  !req.body.password && res.status(401).json("Password can't be blank");
+  !req.body.email && res.status(401).json("Email can't be blank");
   try {
     //Checking if user exsist in database
     const loginUser = await User.findOne({
@@ -49,7 +51,6 @@ router.post("/login", async (req, res) => {
     });
     
     !loginUser && res.status(401).json("Wrong Credential or Something");
-    !req.body.password && res.status(401).json("Password can't be blank");
     //Decrypting Password to compare with req.body.password
     const decrypted = CryptoJS.AES.decrypt(
       loginUser.password,
@@ -81,7 +82,7 @@ router.post("/login", async (req, res) => {
         res.status(201).json({ ...other }); //201 for successfully edit
 
   } catch (error) {
-    return res.status(500).json(error);
+    res.status(500).json(error);
   }
 });
 

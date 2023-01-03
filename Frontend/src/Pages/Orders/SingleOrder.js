@@ -61,8 +61,14 @@ export default function SingleOrder() {
                     <MDBTypography tag="h5" className="text-muted mb-0">
                       Thanks for your Order
                       <span style={{ color: "#a8729a" }}> # {order?._id}</span>
-                      <span className=" ms-5"> {
-             order?.status ==="Pending" &&  <MDBBadge pill light color='success'>
+                      <span className=" ms-5"> 
+                      {
+             order?.status ==="Pending" &&  <MDBBadge pill light color='secondary'>
+             Pending
+           </MDBBadge>
+            }
+                      {
+             order?.status ==="Processing" &&  <MDBBadge pill light color='success'>
              Active
            </MDBBadge>
             }

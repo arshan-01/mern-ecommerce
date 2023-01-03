@@ -69,7 +69,12 @@ console.log(id)
           </td>
           <td>
             {
-             order.status ==="Pending" &&  <MDBBadge pill light color='success'>
+             order.status ==="Pending" &&  <MDBBadge pill light color='secondary'>
+             Pending
+           </MDBBadge>
+            }
+            {
+             order.status ==="Processing" &&  <MDBBadge pill light color='success'>
              Active
            </MDBBadge>
             }
